@@ -1,28 +1,28 @@
 # Harness::ActionSubscriber
 
-TODO: Write a gem description
+Log ActionSubscriber via Harness
 
 ## Installation
 
-Add this line to your application's Gemfile:
+1. Add this gem to the Gemfile
+2. Create a rails initializer that sets up a Harness collector if you don't already have it configured.
 
-    gem 'harness-action_subscriber'
+```ruby
+require 'buttress/statsd'
+require 'harness'
 
-And then execute:
+config_file = ::Rails.root.join('config', 'statsd.yml')
 
-    $ bundle
+if ::File.exists?(config_file) && ::Rails.env != 'test'
+  ::Buttress::Statsd.initialize!(config_file)
+end
 
-Or install it yourself as:
-
-    $ gem install harness-action_subscriber
-
-## Usage
-
-TODO: Write usage instructions here
+::Harness.config.collector = ::Buttress.statsd
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/harness-action_subscriber/fork )
+1. Fork it ( https://git.moneydesktop.com/dev/harness-action_subscriber/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

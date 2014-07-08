@@ -1,2 +1,2 @@
-require "bundler/gem_tasks"
+require "special_delivery/gem_tasks"
 
