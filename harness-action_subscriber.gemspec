@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'special_delivery'
 
   spec.add_runtime_dependency "harness", ">= 2.0.0"
-  spec.add_runtime_dependency "action_subscriber" # TODO depend on a version that exposes the instrumentation
+  spec.add_runtime_dependency "action_subscriber", ">= 1.0.2"
 end
