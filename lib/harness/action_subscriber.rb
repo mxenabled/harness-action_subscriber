@@ -16,6 +16,6 @@ end
 
 ::ActiveSupport::Notifications.subscribe "process_event.action_subscriber" do |*args|
   event = ::ActiveSupport::Notifications::Event.new(*args)
-  event_name = event.payload[:routing_key].gsub '.', '-'
+  event_name = event.payload[:queue].gsub '.', '-'
   ::Harness.timing "action_subscriber.process_event.#{event_name}", event.duration
 end
