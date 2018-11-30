@@ -20,3 +20,6 @@ tmp
 *.o
 *.a
 mkmf.log
+
+# respec failure tracking
+.rspec_status
