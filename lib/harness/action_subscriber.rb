@@ -6,9 +6,10 @@ require "active_support"
 module Harness
   module ActionSubscriber
     UNBLOCKED_METRIC = ["action_subscriber", ENV["SERVICE_NAME"], "connection", "unblocked"].reject(&:nil?).join(".").freeze
+    REASON_IS_MISSING = "reason_for_blocking_is_missing"
 
     ::ActiveSupport::Notifications.subscribe "connection_blocked.action_subscriber" do |_, _, _, _, params|
-      reason = params.fetch(:reason)
+      reason = params.fetch(:reason) || REASON_IS_MISSING
       blocked_metric = ["action_subscriber", ENV["SERVICE_NAME"], "connection", "blocked", reason.gsub(/\W/, "_")].
         reject(&:nil?).join(".")
 
