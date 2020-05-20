@@ -13,6 +13,23 @@ describe ::Harness::ActionSubscriber do
     expect(Harness::ActionSubscriber::VERSION).not_to be nil
   end
 
+  describe "connection_blocked.action_subscriber" do
+    before { ::ENV["SERVICE_NAME"] = "my_app" }
+    after { ::ENV.delete("SERVICE_NAME") }
+
+    it "increments the connection blocked count" do
+      expect(collector).to receive(:increment).with("action_subscriber.my_app.connection.blocked.low_on_memory")
+      ::ActiveSupport::Notifications.instrument("connection_blocked.action_subscriber", :reason => "low on memory")
+    end
+  end
+
+  describe "connection_unblocked.action_subscriber" do
+    it "increments the connection unblocked count" do
+      expect(collector).to receive(:increment).with("action_subscriber.connection.unblocked")
+      ::ActiveSupport::Notifications.instrument("connection_unblocked.action_subscriber")
+    end
+  end
+
   describe "message_acked.action_subscriber" do
     it "increments the message_acked counter" do
       expect(collector).to receive(:increment).with("action_subscriber.messages_acked.abacus-amigo-user-created")
