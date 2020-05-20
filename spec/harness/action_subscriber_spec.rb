@@ -21,6 +21,11 @@ describe ::Harness::ActionSubscriber do
       expect(collector).to receive(:increment).with("action_subscriber.my_app.connection.blocked.low_on_memory")
       ::ActiveSupport::Notifications.instrument("connection_blocked.action_subscriber", :reason => "low on memory")
     end
+
+    it "uses a default reason when missing" do
+      expect(collector).to receive(:increment).with("action_subscriber.my_app.connection.blocked.reason_for_blocking_is_missing")
+      ::ActiveSupport::Notifications.instrument("connection_blocked.action_subscriber", :reason => nil)
+    end
   end
 
   describe "connection_unblocked.action_subscriber" do
